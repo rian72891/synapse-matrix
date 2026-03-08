@@ -91,9 +91,9 @@ export function ChatView() {
           fullContent += delta;
           setStreamingContent(fullContent);
         },
-        onDone: () => {
+        onDone: async () => {
           if (fullContent) {
-            addMessage(activeConversationId, {
+            await addMessage(activeConversationId, {
               role: 'assistant',
               content: fullContent,
               agent: conversation?.agent,
