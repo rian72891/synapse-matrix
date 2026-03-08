@@ -34,7 +34,9 @@ serve(async (req) => {
     } else {
       userContent.push({
         type: "text",
-        text: `Create a high quality, detailed image: ${prompt}. Make it visually stunning with professional composition and lighting.`,
+        text: quality === "hd"
+          ? `Create a high quality, detailed image: ${prompt}. Professional composition and lighting.`
+          : prompt,
       });
     }
 

@@ -53,7 +53,25 @@ export function ChatMessage({ message }: ChatMessageProps) {
         {message.attachments?.map((att, i) => (
           <div key={i} className="mb-2">
             {att.type === 'image' ? (
-              <img src={att.url} alt={att.name} className="rounded-lg max-h-64 object-contain" />
+              <div className="group relative inline-block">
+                <img
+                  src={att.url}
+                  alt={att.name}
+                  className="rounded-lg max-h-64 object-contain cursor-pointer hover:opacity-95 transition-opacity"
+                  onClick={() => window.open(att.url, '_blank')}
+                />
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    downloadImage(att.url, att.name || undefined);
+                  }}
+                  className="absolute bottom-2 right-2 p-2 bg-background/80 backdrop-blur-sm border border-border rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background flex items-center gap-1.5"
+                  title="Baixar imagem"
+                >
+                  <Download className="h-4 w-4 text-foreground" />
+                  <span className="text-xs text-foreground font-medium">Baixar</span>
+                </button>
+              </div>
             ) : (
               <a href={att.url} download={att.name} className="flex items-center gap-2 px-3 py-2 bg-muted rounded-lg text-xs hover:bg-muted/80 transition-colors">
                 <Download className="h-3.5 w-3.5" />
