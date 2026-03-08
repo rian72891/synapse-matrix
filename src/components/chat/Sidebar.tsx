@@ -24,7 +24,7 @@ export function Sidebar() {
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <span className="font-display font-semibold text-foreground tracking-tight">Synapse Matrix</span>
+              <span className="font-display font-semibold text-foreground tracking-tight">SYNAPSE AI</span>
             </div>
             <button onClick={() => setSidebarOpen(false)} className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
               <PanelLeftClose className="h-4 w-4" />
