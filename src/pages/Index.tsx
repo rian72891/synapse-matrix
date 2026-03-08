@@ -1,4 +1,4 @@
-import { PanelLeftOpen } from 'lucide-react';
+import { PanelLeftOpen, Download } from 'lucide-react';
 import { Sidebar } from '@/components/chat/Sidebar';
 import { AgentSelector } from '@/components/chat/AgentSelector';
 import { ChatView } from '@/components/chat/ChatView';
