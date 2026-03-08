@@ -75,7 +75,7 @@ export function ChatView() {
       <div className="px-4 py-3 border-b border-border flex items-center gap-2">
         {agent && <span className="text-lg">{agent.icon}</span>}
         <span className="text-sm font-medium text-foreground">
-          {agent?.name || 'Synapse Matrix'}
+          {agent?.name || 'SYNAPSE AI'}
         </span>
         {agent && (
           <span className="text-xs text-muted-foreground ml-1">

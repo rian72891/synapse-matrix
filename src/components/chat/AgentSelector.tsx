@@ -8,7 +8,9 @@ const agentColorMap: Record<AgentType, string> = {
   research: 'border-agent-research/30 hover:border-agent-research/60 hover:shadow-[0_0_20px_hsl(200_80%_55%/0.1)]',
   coder: 'border-agent-coder/30 hover:border-agent-coder/60 hover:shadow-[0_0_20px_hsl(160_84%_50%/0.1)]',
   business: 'border-agent-business/30 hover:border-agent-business/60 hover:shadow-[0_0_20px_hsl(35_90%_55%/0.1)]',
+  marketing: 'border-primary/30 hover:border-primary/60 hover:shadow-[0_0_20px_hsl(var(--primary)/0.1)]',
   content: 'border-agent-content/30 hover:border-agent-content/60 hover:shadow-[0_0_20px_hsl(300_60%_60%/0.1)]',
+  analyst: 'border-accent/30 hover:border-accent/60 hover:shadow-[0_0_20px_hsl(var(--accent)/0.1)]',
   automation: 'border-agent-automation/30 hover:border-agent-automation/60 hover:shadow-[0_0_20px_hsl(220_70%_60%/0.1)]',
 };
 
@@ -28,14 +30,14 @@ export function AgentSelector() {
         className="text-center mb-12"
       >
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-          <span className="text-gradient-primary">NexusAI</span>
+          <span className="text-gradient-primary">SYNAPSE AI</span>
         </h1>
         <p className="text-muted-foreground text-lg">
           Escolha um agente especializado ou inicie uma conversa livre
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full mb-8">
         {agents.map((agent, i) => (
           <motion.button
             key={agent.id}

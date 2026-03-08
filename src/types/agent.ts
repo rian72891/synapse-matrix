@@ -1,4 +1,4 @@
-export type AgentType = 'research' | 'coder' | 'business' | 'content' | 'automation';
+export type AgentType = 'research' | 'coder' | 'business' | 'marketing' | 'content' | 'analyst' | 'automation';
 
 export interface Agent {
   id: AgentType;

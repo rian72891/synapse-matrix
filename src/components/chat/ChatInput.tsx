@@ -57,7 +57,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
           </motion.button>
         </div>
         <p className="text-[10px] text-muted-foreground text-center mt-2">
-          Synapse Matrix pode cometer erros. Verifique informações importantes.
+          SYNAPSE AI pode cometer erros. Verifique informações importantes.
         </p>
       </div>
     </div>
