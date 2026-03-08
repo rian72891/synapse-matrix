@@ -34,7 +34,7 @@ export function ChatView() {
     try {
       const result = await generateImage(prompt, quality);
       const desc = result.description || `Imagem gerada: ${prompt}`;
-      addMessage(activeConversationId, {
+      await addMessage(activeConversationId, {
         role: 'assistant',
         content: desc,
         attachments: [{ type: 'image', name: prompt, url: result.imageUrl }],
