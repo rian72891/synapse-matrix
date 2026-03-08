@@ -86,6 +86,19 @@ export function ChatView() {
   const handleScrape = async (url: string) => {
     if (!activeConversationId || !url) return;
 
+    // Validate URL format
+    let formattedUrl = url.trim();
+    if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+      formattedUrl = `https://${formattedUrl}`;
+    }
+    try {
+      new URL(formattedUrl);
+    } catch {
+      await addMessage(activeConversationId, { role: 'user', content: `🌐 Extrair conteúdo: ${url}` });
+      await addMessage(activeConversationId, { role: 'assistant', content: `⚠️ **"${url}"** não é uma URL válida. Use o formato: \`/scrape https://exemplo.com\`` });
+      return;
+    }
+
     await addMessage(activeConversationId, { role: 'user', content: `🌐 Extrair conteúdo: ${url}` });
     setIsStreaming(true);
     setLoadingLabel('Extraindo conteúdo do site...');
