@@ -26,7 +26,7 @@ export function ChatView() {
     if (!activeConversationId || !prompt) return;
 
     const qualityLabel = quality === 'hd' ? '(HD)' : '(rápido)';
-    addMessage(activeConversationId, { role: 'user', content: `🎨 Gerar imagem ${qualityLabel}: ${prompt}` });
+    await addMessage(activeConversationId, { role: 'user', content: `🎨 Gerar imagem ${qualityLabel}: ${prompt}` });
     setIsStreaming(true);
     setLoadingLabel('Gerando imagem...');
     setStreamingContent('');
