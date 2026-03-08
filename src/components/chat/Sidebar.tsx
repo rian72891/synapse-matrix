@@ -7,10 +7,17 @@ import { SettingsDialog } from './SettingsDialog';
 import { useAuth } from '@/hooks/useAuth';
 
 export function Sidebar() {
-  const { conversations, activeConversationId, sidebarOpen, setSidebarOpen, setActiveConversation, setSelectedAgent, deleteConversation, renameConversation } = useChatStore();
+  const { conversations, activeConversationId, sidebarOpen, setSidebarOpen, setActiveConversation, setSelectedAgent, deleteConversation, renameConversation, loadConversations, loaded } = useChatStore();
+  const { user, signOut } = useAuth();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!loaded && user) {
+      loadConversations();
+    }
+  }, [loaded, user, loadConversations]);
 
   const handleNewChat = () => {
     setSelectedAgent(null);
