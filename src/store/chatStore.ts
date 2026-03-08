@@ -101,7 +101,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
         user_id: session.session.user.id,
         title: 'Nova conversa',
         agent: agent || null,
-      })
+      } as any)
       .select()
       .single();
 
