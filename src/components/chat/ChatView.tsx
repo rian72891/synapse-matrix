@@ -3,39 +3,70 @@ import { useChatStore } from '@/store/chatStore';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { agents } from '@/data/agents';
+import { streamChat } from '@/lib/streamChat';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export function ChatView() {
   const { activeConversationId, getActiveConversation, addMessage } = useChatStore();
   const conversation = getActiveConversation();
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [streamingContent, setStreamingContent] = useState('');
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [conversation?.messages.length, isTyping]);
+  }, [conversation?.messages.length, streamingContent]);
 
   const agent = conversation?.agent ? agents.find((a) => a.id === conversation.agent) : null;
 
-  const handleSend = (content: string) => {
+  const handleSend = async (content: string) => {
     if (!activeConversationId) return;
     addMessage(activeConversationId, { role: 'user', content });
 
-    // Simulate AI response
-    setIsTyping(true);
-    setTimeout(() => {
-      const responses = [
-        `Entendi seu pedido! Como ${agent?.name || 'assistente'}, vou analisar isso com cuidado.\n\nAqui estão os próximos passos que vou seguir:\n\n1. **Análise do contexto** — compreender os requisitos\n2. **Planejamento** — dividir em subtarefas\n3. **Execução** — implementar a solução\n\nVou começar a trabalhar nisso agora.`,
-        `Ótima pergunta! Deixe-me pesquisar e estruturar uma resposta completa para você.\n\nBaseado na minha análise inicial, posso identificar alguns pontos-chave que precisamos abordar. Vou detalhar cada um deles.`,
-        `Perfeito, já estou processando sua solicitação.\n\nUtilizando minhas capacidades de ${agent?.capabilities?.join(', ') || 'análise e raciocínio'}, vou fornecer uma resposta estruturada e acionável.`,
-      ];
-      addMessage(activeConversationId, {
-        role: 'assistant',
-        content: responses[Math.floor(Math.random() * responses.length)],
+    setIsStreaming(true);
+    setStreamingContent('');
+
+    // Build message history for context
+    const currentConv = getActiveConversation();
+    const history = (currentConv?.messages || []).map((m) => ({
+      role: m.role as 'user' | 'assistant' | 'system',
+      content: m.content,
+    }));
+    history.push({ role: 'user', content });
+
+    let fullContent = '';
+
+    try {
+      await streamChat({
+        messages: history,
         agent: conversation?.agent,
+        onDelta: (delta) => {
+          fullContent += delta;
+          setStreamingContent(fullContent);
+        },
+        onDone: () => {
+          if (fullContent) {
+            addMessage(activeConversationId, {
+              role: 'assistant',
+              content: fullContent,
+              agent: conversation?.agent,
+            });
+          }
+          setIsStreaming(false);
+          setStreamingContent('');
+        },
+        onError: (error) => {
+          toast.error(error);
+          setIsStreaming(false);
+          setStreamingContent('');
+        },
       });
-      setIsTyping(false);
-    }, 1500 + Math.random() * 1500);
+    } catch (e) {
+      toast.error('Erro ao conectar com a IA. Tente novamente.');
+      setIsStreaming(false);
+      setStreamingContent('');
+    }
   };
 
   return (
@@ -44,7 +75,7 @@ export function ChatView() {
       <div className="px-4 py-3 border-b border-border flex items-center gap-2">
         {agent && <span className="text-lg">{agent.icon}</span>}
         <span className="text-sm font-medium text-foreground">
-          {agent?.name || 'Assistente Geral'}
+          {agent?.name || 'Synapse Matrix'}
         </span>
         {agent && (
           <span className="text-xs text-muted-foreground ml-1">
@@ -55,7 +86,7 @@ export function ChatView() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto scrollbar-thin py-4">
-        {conversation?.messages.length === 0 && (
+        {conversation?.messages.length === 0 && !isStreaming && (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
             Envie uma mensagem para começar
           </div>
@@ -63,7 +94,17 @@ export function ChatView() {
         {conversation?.messages.map((msg) => (
           <ChatMessage key={msg.id} message={msg} />
         ))}
-        {isTyping && (
+        {isStreaming && streamingContent && (
+          <ChatMessage
+            message={{
+              id: 'streaming',
+              role: 'assistant',
+              content: streamingContent,
+              timestamp: new Date(),
+            }}
+          />
+        )}
+        {isStreaming && !streamingContent && (
           <div className="flex gap-3 px-4 py-3">
             <div className="h-7 w-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Loader2 className="h-4 w-4 text-primary animate-spin" />
@@ -81,7 +122,7 @@ export function ChatView() {
       </div>
 
       {/* Input */}
-      <ChatInput onSend={handleSend} disabled={isTyping} />
+      <ChatInput onSend={handleSend} disabled={isStreaming} />
     </div>
   );
 }
