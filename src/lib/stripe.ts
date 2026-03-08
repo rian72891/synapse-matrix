@@ -5,9 +5,12 @@ export const PLANS = {
     priceId: null,
     productId: null,
     features: [
-      '5 mensagens por dia',
-      'Geração de imagens (qualidade rápida)',
-      'Busca web limitada',
+      'Mensagens ilimitadas',
+      'Geração de imagens HD',
+      'Áudio com ElevenLabs',
+      'Busca web ilimitada',
+      'Web scraping',
+      'Todos os recursos liberados',
     ],
   },
   pro: {
