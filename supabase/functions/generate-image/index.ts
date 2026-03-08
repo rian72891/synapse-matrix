@@ -88,10 +88,13 @@ serve(async (req) => {
     const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
     const textResponse = data.choices?.[0]?.message?.content || "";
 
+    console.log("AI response - has image:", !!imageUrl, "text:", textResponse?.substring(0, 200));
+
     if (!imageUrl) {
+      const reason = textResponse || "Nenhuma imagem foi gerada. Tente reformular o prompt.";
       return new Response(
-        JSON.stringify({ error: "Nenhuma imagem foi gerada. Tente reformular o prompt." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: reason }),
+        { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
