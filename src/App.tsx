@@ -8,6 +8,7 @@ import { SubscriptionProvider } from "@/hooks/useSubscription";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Plans from "./pages/Plans";
+import SharedArtifacts from "./pages/SharedArtifacts";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 
