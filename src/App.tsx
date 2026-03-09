@@ -8,6 +8,7 @@ import { SubscriptionProvider } from "@/hooks/useSubscription";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Plans from "./pages/Plans";
+import SharedArtifacts from "./pages/SharedArtifacts";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 
@@ -33,6 +34,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/plans" element={<Plans />} />
+        <Route path="/shared/:id" element={<SharedArtifacts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </SubscriptionProvider>

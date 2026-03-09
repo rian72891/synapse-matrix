@@ -128,6 +128,9 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
     if (isPlaying && audioRef.current) {
       audioRef.current.pause();
       setIsPlaying(false);
+    } else if (audioRef.current && audioRef.current.src === audioUrl) {
+      audioRef.current.play();
+      setIsPlaying(true);
     } else {
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
