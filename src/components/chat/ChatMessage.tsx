@@ -10,6 +10,13 @@ interface ChatMessageProps {
   audioUrl?: string | null;
 }
 
+interface Artifact {
+  filename: string;
+  type: string;
+  title: string;
+  content: string;
+}
+
 const getFileIcon = (filename: string) => {
   const ext = filename.split('.').pop()?.toLowerCase();
   switch (ext) {
