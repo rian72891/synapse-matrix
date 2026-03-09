@@ -456,41 +456,32 @@ export function ChatView() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin py-4">
+      <div className="flex-1 overflow-y-auto scrollbar-thin py-6">
         {conversation?.messages.length === 0 && !isStreaming && (
-          <div className="flex flex-col items-center justify-center h-full gap-4 text-center px-4">
-            <p className="text-muted-foreground text-sm">Envie uma mensagem para começar</p>
-            <div className="flex flex-wrap gap-2 justify-center max-w-md">
-              <button
-                onClick={() => handleSend('Olá! O que você pode fazer?')}
-                className="px-3 py-1.5 bg-card border border-border rounded-full text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                💬 O que você pode fazer?
-              </button>
-              <button
-                onClick={() => handleImageGeneration('um gato astronauta flutuando no espaço com a Terra ao fundo', 'fast')}
-                className="px-3 py-1.5 bg-card border border-border rounded-full text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                🎨 Gerar uma imagem
-              </button>
-              <button
-                onClick={() => handleSend('/search últimas notícias de tecnologia')}
-                className="px-3 py-1.5 bg-card border border-border rounded-full text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                🔍 Buscar na web
-              </button>
-              <button
-                onClick={() => handleSend('/voz Olá! Eu sou a NexusIA, sua assistente de inteligência artificial.')}
-                className="px-3 py-1.5 bg-card border border-border rounded-full text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                🔊 Gerar áudio
-              </button>
-              <button
-                onClick={() => handleFileGeneration('pdf', 'Guia completo sobre inteligência artificial')}
-                className="px-3 py-1.5 bg-card border border-border rounded-full text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                📄 Gerar PDF
-              </button>
+          <div className="flex flex-col items-center justify-center h-full gap-5 text-center px-4">
+            <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <Sparkles className="h-7 w-7 text-primary" />
+            </div>
+            <div>
+              <p className="text-lg font-semibold text-foreground mb-1">Como posso ajudar?</p>
+              <p className="text-sm text-muted-foreground">Envie uma mensagem para começar</p>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center max-w-lg">
+              {[
+                { label: '💬 O que você pode fazer?', action: () => handleSend('Olá! O que você pode fazer?') },
+                { label: '🎨 Gerar uma imagem', action: () => handleImageGeneration('um gato astronauta flutuando no espaço', 'fast') },
+                { label: '🔍 Buscar na web', action: () => handleSend('/search últimas notícias de tecnologia') },
+                { label: '🔊 Gerar áudio', action: () => handleSend('/voz Olá! Eu sou a Nexusia.') },
+                { label: '📄 Gerar PDF', action: () => handleFileGeneration('pdf', 'Guia sobre inteligência artificial') },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  onClick={item.action}
+                  className="px-4 py-2 bg-card border border-border rounded-xl text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 hover:shadow-sm transition-all"
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
         )}

@@ -39,7 +39,7 @@ export function AgentSelector() {
     await createConversation();
   };
 
-  const handleSelectAgent = async (agentId: string) => {
+  const handleSelectAgent = async (agentId: AgentType) => {
     setSelectedAgent(agentId);
     await createConversation(agentId);
   };
