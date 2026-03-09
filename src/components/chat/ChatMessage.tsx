@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Message } from '@/types/agent';
 import { cn } from '@/lib/utils';
-import { Bot, User, Download, Copy, Check, Volume2, Pause, FileText, Code, FileArchive, File, Mic } from 'lucide-react';
+import { Bot, User, Download, Copy, Check, Volume2, Pause, FileText, Code, FileArchive, File, Mic, FileCode } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 
 interface ChatMessageProps {
   message: Message;
