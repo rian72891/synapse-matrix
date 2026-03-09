@@ -81,6 +81,26 @@ serve(async (req) => {
       ? agentSystemPrompts[agent]
       : defaultSystemPrompt;
 
+    // Process messages to handle image attachments
+    const processedMessages = messages.map((msg: any) => {
+      if (msg.attachments && msg.attachments.length > 0) {
+        const imageAttachments = msg.attachments.filter((att: any) => att.type === 'image');
+        
+        if (imageAttachments.length > 0) {
+          // Convert message to multimodal format with images
+          const content = [
+            { type: "text", text: msg.content },
+            ...imageAttachments.map((img: any) => ({
+              type: "image_url",
+              image_url: { url: img.url }
+            }))
+          ];
+          return { role: msg.role, content };
+        }
+      }
+      return { role: msg.role, content: msg.content };
+    });
+
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
       {
@@ -90,10 +110,10 @@ serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
+          model: "google/gemini-2.5-flash",
           messages: [
             { role: "system", content: systemPrompt },
-            ...messages,
+            ...processedMessages,
           ],
           stream: true,
         }),
