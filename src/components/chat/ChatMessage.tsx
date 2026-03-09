@@ -290,15 +290,25 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
               <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
                 📦 Arquivos Gerados ({artifacts.length})
               </div>
-              {artifacts.length > 1 && (
+              <div className="flex items-center gap-1.5">
                 <button
-                  onClick={downloadAllArtifacts}
-                  className="flex items-center gap-1.5 px-2.5 py-1 bg-primary text-primary-foreground rounded-md text-[10px] font-medium hover:bg-primary/90 transition-colors"
+                  onClick={shareArtifacts}
+                  disabled={isSharing}
+                  className="flex items-center gap-1.5 px-2.5 py-1 bg-secondary text-secondary-foreground rounded-md text-[10px] font-medium hover:bg-secondary/80 transition-colors disabled:opacity-50"
                 >
-                  <FileArchive className="h-3 w-3" />
-                  Baixar tudo (.zip)
+                  {isSharing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Share2 className="h-3 w-3" />}
+                  Compartilhar
                 </button>
-              )}
+                {artifacts.length > 1 && (
+                  <button
+                    onClick={downloadAllArtifacts}
+                    className="flex items-center gap-1.5 px-2.5 py-1 bg-primary text-primary-foreground rounded-md text-[10px] font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    <FileArchive className="h-3 w-3" />
+                    Baixar tudo (.zip)
+                  </button>
+                )}
+              </div>
             </div>
             {artifacts.map((artifact, idx) => (
               <div
