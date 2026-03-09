@@ -325,10 +325,10 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
                 },
               }}
             >
-              {message.content}
+              {cleanContent}
             </ReactMarkdown>
           </div>
-        )}
+        ) : null}
       </div>
       {isUser && (
         <div className="h-7 w-7 rounded-lg bg-muted flex items-center justify-center shrink-0 mt-0.5">
