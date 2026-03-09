@@ -21,11 +21,41 @@ const getFileIcon = (filename: string) => {
   const ext = filename.split('.').pop()?.toLowerCase();
   switch (ext) {
     case 'pdf':
-      return <FileText className="h-4 w-4 text-red-500 shrink-0" />;
+      return <FileText className="h-4 w-4 text-destructive shrink-0" />;
     case 'html':
-      return <Code className="h-4 w-4 text-cyan-500 shrink-0" />;
+    case 'htm':
+      return <Code className="h-4 w-4 text-primary shrink-0" />;
     case 'zip':
+    case 'rar':
+    case 'tar':
+    case 'gz':
       return <FileArchive className="h-4 w-4 text-yellow-600 shrink-0" />;
+    case 'js':
+    case 'ts':
+    case 'jsx':
+    case 'tsx':
+    case 'py':
+    case 'java':
+    case 'cpp':
+    case 'c':
+    case 'go':
+    case 'rs':
+    case 'php':
+    case 'rb':
+      return <FileCode className="h-4 w-4 text-primary shrink-0" />;
+    case 'json':
+    case 'yaml':
+    case 'yml':
+    case 'xml':
+    case 'toml':
+    case 'ini':
+    case 'env':
+      return <FileText className="h-4 w-4 text-secondary shrink-0" />;
+    case 'md':
+    case 'txt':
+    case 'doc':
+    case 'docx':
+      return <FileText className="h-4 w-4 text-muted-foreground shrink-0" />;
     default:
       return <File className="h-4 w-4 text-muted-foreground shrink-0" />;
   }
