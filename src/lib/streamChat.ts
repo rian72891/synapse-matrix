@@ -1,6 +1,4 @@
-import { AgentType } from '@/types/agent';
-
-type Msg = { role: 'user' | 'assistant' | 'system'; content: string };
+import { AgentType, Message } from '@/types/agent';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
@@ -11,7 +9,7 @@ export async function streamChat({
   onDone,
   onError,
 }: {
-  messages: Msg[];
+  messages: Message[];
   agent?: AgentType;
   onDelta: (text: string) => void;
   onDone: () => void;
