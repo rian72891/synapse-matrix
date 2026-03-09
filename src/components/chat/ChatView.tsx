@@ -367,19 +367,36 @@ export function ChatView() {
       return;
     }
 
-    await addMessage(activeConversationId, { role: 'user', content });
+    // Process attachments
+    let processedAttachments: { type: 'image' | 'file'; url: string; name: string }[] = [];
+    
+    if (attachments && attachments.length > 0) {
+      for (const file of attachments) {
+        const reader = new FileReader();
+        const dataUrl = await new Promise<string>((resolve) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        
+        processedAttachments.push({
+          type: file.type.startsWith('image/') ? 'image' : 'file',
+          url: dataUrl,
+          name: file.name,
+        });
+      }
+    }
+
+    await addMessage(activeConversationId, { 
+      role: 'user', 
+      content,
+      attachments: processedAttachments.length > 0 ? processedAttachments : undefined
+    });
     setIsStreaming(true);
     setStreamingContent('');
     setLoadingLabel('');
 
     const currentConv = getActiveConversation();
     const history = currentConv?.messages || [];
-    history.push({ 
-      id: Date.now().toString(), 
-      role: 'user', 
-      content,
-      timestamp: new Date()
-    });
 
     let fullContent = '';
 
