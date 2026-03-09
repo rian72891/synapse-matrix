@@ -34,6 +34,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/plans" element={<Plans />} />
+        <Route path="/shared/:id" element={<SharedArtifacts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </SubscriptionProvider>
