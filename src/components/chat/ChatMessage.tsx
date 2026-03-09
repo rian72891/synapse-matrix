@@ -70,6 +70,7 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
   const [copiedBlock, setCopiedBlock] = useState<number | null>(null);
   const [copiedArtifact, setCopiedArtifact] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Parse artifacts from message content
