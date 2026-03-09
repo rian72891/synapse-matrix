@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { PLANS, PlanKey } from '@/lib/stripe';
 import { agents } from '@/data/agents';
+import type { AgentType } from '@/types/agent';
 import {
   Lightbulb, PenLine, Code2, BookOpen, Sparkles, Crown, Zap, Check, Loader2,
   ArrowRight, Brain, MessageCircle, ImageIcon, FileText
