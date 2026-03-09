@@ -378,7 +378,7 @@ export function ChatView() {
       id: Date.now().toString(), 
       role: 'user', 
       content,
-      timestamp: new Date().toISOString()
+      timestamp: new Date()
     });
 
     let fullContent = '';
