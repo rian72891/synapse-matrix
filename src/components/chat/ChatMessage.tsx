@@ -154,7 +154,6 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
     if (artifacts.length === 0) return;
     
     const zip = new JSZip();
-    
     artifacts.forEach(artifact => {
       zip.file(artifact.filename, artifact.content);
     });
@@ -168,6 +167,31 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const shareArtifacts = async () => {
+    if (artifacts.length === 0 || isSharing) return;
+    setIsSharing(true);
+    try {
+      const { data, error } = await supabase
+        .from('shared_artifacts')
+        .insert([{
+          title: `Arquivos Compartilhados (${artifacts.length})`,
+          artifacts: artifacts as any,
+        }])
+        .select()
+        .single();
+
+      if (error || !data) throw error;
+
+      const shareUrl = `${window.location.origin}/shared/${data.id}`;
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success('Link copiado para a área de transferência!');
+    } catch {
+      toast.error('Erro ao compartilhar artefatos.');
+    } finally {
+      setIsSharing(false);
+    }
   };
 
   let codeBlockIdx = 0;
