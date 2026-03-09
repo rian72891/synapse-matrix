@@ -218,11 +218,51 @@ export function ChatMessage({ message, audioUrl }: ChatMessageProps) {
           </div>
         )}
 
+        {/* Artifacts - Generated Files */}
+        {artifacts.length > 0 && (
+          <div className="mt-3 space-y-2">
+            <div className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide mb-2">
+              📦 Arquivos Gerados ({artifacts.length})
+            </div>
+            {artifacts.map((artifact, idx) => (
+              <div
+                key={idx}
+                className="group bg-muted/50 border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-colors"
+              >
+                <div className="flex items-center justify-between p-3">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    {getFileIcon(artifact.filename)}
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-foreground truncate">
+                        {artifact.title}
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                        <span className="truncate">{artifact.filename}</span>
+                        <span>•</span>
+                        <span>{artifact.type}</span>
+                        <span>•</span>
+                        <span>{formatFileSize(artifact.content)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => downloadFile(artifact.content, artifact.filename)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-xs font-medium hover:bg-primary/90 transition-colors shrink-0"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    Baixar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {isUser ? (
           <p className="whitespace-pre-wrap">
             {isVoiceMessage ? message.content.replace('🎤 ', '') : message.content}
           </p>
-        ) : (
+        ) : cleanContent ? (
           <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1.5 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:p-0 prose-pre:bg-transparent prose-pre:border-0">
             <ReactMarkdown
               components={{
