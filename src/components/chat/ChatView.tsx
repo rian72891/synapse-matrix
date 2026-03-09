@@ -437,16 +437,22 @@ export function ChatView() {
   return (
     <div className="flex-1 flex flex-col h-screen">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-border flex items-center gap-2">
-        {agent && <span className="text-lg">{agent.icon}</span>}
-        <span className="text-sm font-medium text-foreground">
-          {agent?.name || 'NexusIA'}
-        </span>
+      <div className="px-4 py-3 border-b border-border bg-background/80 backdrop-blur-sm flex items-center gap-3">
         {agent && (
-          <span className="text-xs text-muted-foreground ml-1">
-            • {agent.description}
-          </span>
+          <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span className="text-sm">{agent.icon}</span>
+          </div>
         )}
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold text-foreground tracking-tight">
+            {agent?.name || 'Nexusia'}
+          </span>
+          {agent && (
+            <span className="text-[11px] text-muted-foreground leading-tight">
+              {agent.description}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Messages */}
