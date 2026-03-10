@@ -254,7 +254,7 @@ export function ChatView() {
                   break;
                 case 'txt':
                   fileUrl = generateTXT(fullContent);
-                  fileName = `nexusia-${prompt.slice(0, 30).replace(/[^a-zA-Z0-9]/g, '-')}.txt`;
+                  fileName = `ventel-${prompt.slice(0, 30).replace(/[^a-zA-Z0-9]/g, '-')}.txt`;
                   displayContent = fullContent.length > 500 ? fullContent.slice(0, 500) + '\n\n... *(conteúdo completo no arquivo)*' : fullContent;
                   break;
                 case 'zip':
