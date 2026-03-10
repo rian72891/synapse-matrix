@@ -445,7 +445,7 @@ export function ChatView() {
         )}
         <div className="flex flex-col">
           <span className="text-sm font-semibold text-foreground tracking-tight">
-            {agent?.name || 'Nexusia'}
+            {agent?.name || 'Ventel IA'}
           </span>
           {agent && (
             <span className="text-[11px] text-muted-foreground leading-tight">
