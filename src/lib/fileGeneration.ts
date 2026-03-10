@@ -197,7 +197,7 @@ export interface ZipFile {
   content: string;
 }
 
-export async function generateZIP(filesJson: string, projectName = 'projeto-nexusia'): Promise<string> {
+export async function generateZIP(filesJson: string, projectName = 'projeto-ventel'): Promise<string> {
   const zip = new JSZip();
 
   try {
