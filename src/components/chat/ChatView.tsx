@@ -471,7 +471,7 @@ export function ChatView() {
                 { label: '💬 O que você pode fazer?', action: () => handleSend('Olá! O que você pode fazer?') },
                 { label: '🎨 Gerar uma imagem', action: () => handleImageGeneration('um gato astronauta flutuando no espaço', 'fast') },
                 { label: '🔍 Buscar na web', action: () => handleSend('/search últimas notícias de tecnologia') },
-                { label: '🔊 Gerar áudio', action: () => handleSend('/voz Olá! Eu sou a Nexusia.') },
+                { label: '🔊 Gerar áudio', action: () => handleSend('/voz Olá! Eu sou a Ventel IA.') },
                 { label: '📄 Gerar PDF', action: () => handleFileGeneration('pdf', 'Guia sobre inteligência artificial') },
               ].map((item) => (
                 <button
