@@ -67,7 +67,7 @@ export default function Auth() {
             {isLogin ? 'Entrar na sua conta' : 'Criar nova conta'}
           </h1>
           <p className="text-sm text-muted-foreground text-center mb-6">
-            {isLogin ? 'Acesse seus chats e histórico' : 'Comece a usar o NexusIA gratuitamente'}
+            {isLogin ? 'Acesse seus chats e histórico' : 'Comece a usar o Ventel IA gratuitamente'}
           </p>
 
           {/* Google */}

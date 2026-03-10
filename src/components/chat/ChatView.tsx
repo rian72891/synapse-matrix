@@ -259,7 +259,7 @@ export function ChatView() {
                   break;
                 case 'zip':
                   fileUrl = await generateZIP(fullContent, prompt.slice(0, 30));
-                  fileName = `nexusia-${prompt.slice(0, 30).replace(/[^a-zA-Z0-9]/g, '-')}.zip`;
+                  fileName = `ventel-${prompt.slice(0, 30).replace(/[^a-zA-Z0-9]/g, '-')}.zip`;
                   displayContent = '✅ Projeto ZIP gerado com sucesso!\n\nClique no botão abaixo para baixar o arquivo com todos os arquivos do projeto.';
                   break;
                 default:

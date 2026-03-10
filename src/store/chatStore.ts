@@ -40,7 +40,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
 
   setTheme: (theme) => {
-    localStorage.setItem('nexusia-theme', theme);
+    localStorage.setItem('ventel-theme', theme);
     document.documentElement.classList.toggle('dark', theme === 'dark');
     set({ theme });
   },

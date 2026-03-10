@@ -296,7 +296,7 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         </div>
 
         <p className="text-[10px] text-muted-foreground text-center mt-2.5 opacity-70">
-          Nexusia pode cometer erros. Verifique informações importantes.
+          Ventel IA pode cometer erros. Verifique informações importantes.
         </p>
 
         <input ref={fileInputRef} type="file" className="hidden" multiple onChange={handleFileSelect} accept=".pdf,.doc,.docx,.txt,.csv,.json,.xml,.xlsx" />
