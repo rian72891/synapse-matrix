@@ -87,7 +87,7 @@ export async function generatePDF(content: string, title = 'Documento Ventel IA'
     pdf.setFontSize(8);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(150, 150, 150);
-    pdf.text(`Gerado por NexusIA • Página ${i} de ${pageCount}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+    pdf.text(`Gerado por Ventel IA • Página ${i} de ${pageCount}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
     pdf.setTextColor(0, 0, 0);
   }
 
