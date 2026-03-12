@@ -3,6 +3,7 @@ import { Check, X, Crown, Zap, Building2, ArrowLeft, Shield, CreditCard, RotateC
 import { useSubscription } from '@/hooks/useSubscription';
 import { PLANS, PlanKey } from '@/lib/stripe';
 import { Button } from '@/components/ui/button';
+import { GumroadCheckout } from '@/components/GumroadCheckout';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
