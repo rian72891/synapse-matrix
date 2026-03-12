@@ -3,6 +3,7 @@ import { Check, X, Crown, Zap, Building2, ArrowLeft, Shield, CreditCard, RotateC
 import { useSubscription } from '@/hooks/useSubscription';
 import { PLANS, PlanKey } from '@/lib/stripe';
 import { Button } from '@/components/ui/button';
+import { GumroadCheckout } from '@/components/GumroadCheckout';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -159,13 +160,12 @@ export default function Precos() {
                 </ul>
 
                 {!isCurrent && gumroadUrl && (
-                  <Button
-                    onClick={() => window.open(gumroadUrl, '_blank')}
+                  <GumroadCheckout
+                    productUrl={gumroadUrl}
+                    buttonText={`Assinar ${plan.name}`}
                     variant={isPro ? 'default' : 'outline'}
                     className={cn('w-full mt-2', isPro && 'bg-gradient-to-r from-primary to-accent hover:opacity-90')}
-                  >
-                    Assinar {plan.name}
-                  </Button>
+                  />
                 )}
 
                 {isCurrent && (
