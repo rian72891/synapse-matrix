@@ -412,6 +412,7 @@ export function ChatView() {
       await streamChat({
         messages: history,
         agent: conversation?.agent,
+        plan,
         onDelta: (delta) => {
           fullContent += delta;
           setStreamingContent(fullContent);
