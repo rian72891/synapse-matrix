@@ -30,10 +30,12 @@ export const PLANS = {
     name: 'Starter',
     price: 'R$ 29/mês',
     priceMonthly: 29,
-    priceYearly: 278, // ~20% off
+    priceYearly: 278,
     gumroadUrl: 'https://gumroad.com/l/vintel-starter',
     gumroadYearlyUrl: 'https://gumroad.com/l/vintel-starter-anual',
     productId: 'vintel-starter',
+    model: 'google/gemini-2.5-flash',
+    maxTokens: 4000,
     limits: {
       messagesPerDay: 50,
       imagesPerMonth: 20,
@@ -42,9 +44,9 @@ export const PLANS = {
       imageAnalysesPerMonth: 10,
     },
     features: [
-      '50 mensagens/dia',
+      '50 mensagens/dia (GPT-4o mini)',
       '20 imagens/mês',
-      '5 arquivos/mês',
+      '5 arquivos/mês (PDF)',
       '30 min áudio/mês',
       '10 análises imagem/mês',
       'Suporte por email',
