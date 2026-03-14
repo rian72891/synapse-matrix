@@ -322,6 +322,73 @@ export function ChatView() {
   const handleSend = async (content: string, attachments?: File[]) => {
     if (!activeConversationId) return;
 
+    // Process attachments first to check for image editing
+    let processedAttachments: { type: 'image' | 'file'; url: string; name: string }[] = [];
+    
+    if (attachments && attachments.length > 0) {
+      for (const file of attachments) {
+        const reader = new FileReader();
+        const dataUrl = await new Promise<string>((resolve) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        processedAttachments.push({
+          type: file.type.startsWith('image/') ? 'image' : 'file',
+          url: dataUrl,
+          name: file.name,
+        });
+      }
+    }
+
+    // Detect image editing: user sends image + text prompt (like "recrie essa imagem", "edite", etc.)
+    const hasImageAttachment = processedAttachments.some(a => a.type === 'image');
+    const imageEditKeywords = ['recri', 'edit', 'modifi', 'alter', 'transform', 'mude', 'muda', 'troque', 'troca', 'refaz', 'refaç', 'imagine', 'gere', 'gerar', 'crie', 'criar', 'tipo', 'estilo', 'igual', 'parecid', 'mesm'];
+    const lowerContent = content.toLowerCase();
+    const isImageEditRequest = hasImageAttachment && (
+      content.startsWith('/imagine ') ||
+      content.startsWith('/imaginehd ') ||
+      imageEditKeywords.some(k => lowerContent.includes(k)) ||
+      lowerContent.length < 100 // Short prompts with images are likely edit requests
+    );
+
+    if (isImageEditRequest && hasImageAttachment) {
+      if (!checkUsage('images')) { showUpgrade('imagens'); return; }
+      const imageAtt = processedAttachments.find(a => a.type === 'image')!;
+      const prompt = content.replace(/^\/(imagine|imaginehd)\s*/, '').trim() || 'Recrie esta imagem com melhorias';
+      const quality: ImageQuality = content.startsWith('/imaginehd ') ? 'hd' : 'fast';
+
+      await addMessage(activeConversationId, {
+        role: 'user',
+        content: `🎨 Editar imagem: ${prompt}`,
+        attachments: processedAttachments,
+      });
+      setIsStreaming(true);
+      setLoadingLabel('Editando imagem com IA...');
+      setStreamingContent('');
+
+      try {
+        const result = await generateImage(prompt, quality, imageAtt.url);
+        const desc = result.description || `Imagem editada: ${prompt}`;
+        await addMessage(activeConversationId, {
+          role: 'assistant',
+          content: desc,
+          attachments: [{ type: 'image', name: `edited-${prompt.slice(0, 30)}`, url: result.imageUrl }],
+        });
+        await incrementUsage('images');
+      } catch (e: any) {
+        toast.error(e.message || 'Erro ao editar imagem.');
+        await addMessage(activeConversationId, {
+          role: 'assistant',
+          content: `❌ Não foi possível editar a imagem. ${e.message || 'Tente novamente.'}`,
+        });
+      } finally {
+        setIsStreaming(false);
+        setStreamingContent('');
+        setLoadingLabel('');
+      }
+      return;
+    }
+
     if (content.startsWith('/imagine ')) {
       const prompt = content.replace('/imagine ', '').trim();
       await handleImageGeneration(prompt, 'fast');
@@ -371,26 +438,8 @@ export function ChatView() {
     // Check message usage
     if (!checkUsage('messages')) { showUpgrade('mensagens'); return; }
 
-    let processedAttachments: { type: 'image' | 'file'; url: string; name: string }[] = [];
-    
-    if (attachments && attachments.length > 0) {
-      for (const file of attachments) {
-        const reader = new FileReader();
-        const dataUrl = await new Promise<string>((resolve) => {
-          reader.onload = () => resolve(reader.result as string);
-          reader.readAsDataURL(file);
-        });
-        
-        processedAttachments.push({
-          type: file.type.startsWith('image/') ? 'image' : 'file',
-          url: dataUrl,
-          name: file.name,
-        });
-      }
-    }
-
     // Check if sending image for analysis
-    if (processedAttachments.some(a => a.type === 'image')) {
+    if (hasImageAttachment) {
       if (!checkUsage('image_analyses')) { showUpgrade('análises de imagem'); return; }
     }
 
@@ -428,7 +477,7 @@ export function ChatView() {
           setIsStreaming(false);
           setStreamingContent('');
           await incrementUsage('messages');
-          if (processedAttachments.some(a => a.type === 'image')) {
+          if (hasImageAttachment) {
             await incrementUsage('image_analyses');
           }
         },
